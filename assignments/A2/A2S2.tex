@@ -1,0 +1,129 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{natbib}
+\usepackage{booktabs}
+%%\usepackage[sc]{mathpazo}
+\usepackage{newpxtext}
+\linespread{1.05}  
+
+% \usepackage{hyperref}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\usepackage{cleveref}
+\usepackage{geometry} % Required for adjusting page dimensions and margins
+
+\geometry{
+	paper=a4paper, % Paper size, change to letterpaper for US letter size
+	top=2.5cm, % Top margin
+	bottom=3cm, % Bottom margin
+	left=2.5cm, % Left margin
+	right=2.5cm, % Right margin
+	headheight=14pt, % Header height
+	footskip=1.5cm, % Space from the bottom margin to the baseline of the footer
+	headsep=1.2cm, % Space from the top margin to the baseline of the header
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+\usepackage[skip=10pt plus1pt, indent=20pt]{parskip}
+
+
+\begin{document}
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+
+\title{COMP3361 Assignment 2 Submission}
+\author{Name: \\ University Number:}
+\date{Spring 2025}
+\maketitle
+
+\section{Building ``Transformer''}
+
+
+\subsection{Building a ``Transformer'' Encoder (25\%)} 
+
+\subsection{Q2 (5 \%)} Look at the attention masks produced. Describe in 1-3 sentences what you see here, including what it looks like the model is doing and whether this matches your expectations for how it should work.
+
+\subsection{Q3 (5 \%)} Try using more Transformer layers (3-4). Do all of the attention masks fit the pattern you expect? Describe in 1-3 sentences what you see in the ``less clear'' attention masks.
+
+\section{Written Problems (45\%)}
+
+\subsection{Multi-Choice (15\%)}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{@{}cc@{}}
+\toprule
+Question Number & Selected Option \\ \midrule
+1               &              \\
+2               &              \\
+3               &              \\
+4               &              \\
+5               &              \\
+\bottomrule
+\end{tabular}
+\caption{Selected Options for Multi-Choice Questions}
+\label{tab:my_label}
+\end{table}
+\subsection{Answer with Reasoning (30\%)}
+
+\paragraph{Question 2.1:} A trigram language model is also often referred to as a second-order Markov language model. It has the following form:
+
+$$
+  P\left(X_{1}=x_{1}, \ldots, X_{n}=x_{n}\right)=\prod_{i=1}^{n} P\left(X_{i}=x_{i} \mid X_{i-2}=x_{i-2}, X_{i-1}=x_{i-1}\right)
+$$
+
+\paragraph{Question 2.1a:} Could you briefly explain the advantages and disadvantages of a high-order Markov language model compared to the second-order one?
+
+\paragraph{Question 2.1b:} Could you give some examples in English where English grammar suggests that the second-order Markov assumption is clearly violated?
+
+
+
+\paragraph{Question 2.2}
+
+We'd like to define a language model with \( V = \{\text{the, a, dog}\} \), and \( p(x_1 \ldots x_n) = \gamma \times 0.5^n \) for any \( x_1 \ldots x_n \), such that \( x_i \in V \) for \( i = 1 \ldots (n - 1) \), and \( x_n = \text{STOP} \), where \( \gamma \) is some expression (which may be a function of \( n \)).
+
+Which of the following definitions for \( \gamma \) give a valid language model? Please choose the answer and prove it.
+
+(Hint: recall that \( \sum_{n=1}^{\infty} 0.5^n = 1 \))
+
+\begin{enumerate}
+    \item \( \gamma = 3^{n-1} \)
+    \item \( \gamma = 3^n \)
+    \item \( \gamma = 1 \)
+    \item \( \gamma = \frac{1}{3^n} \)
+    \item \( \gamma = \frac{1}{3^{n-1}} \)
+\end{enumerate}
+
+
+
+
+\paragraph{Question 2.3}
+Given a small document corpus D consisting of two sentences: \{``i hug pugs", ``hugging pugs is fun"\} and a desired vocabulary size of N=15. Your task is to apply the Byte Pair Encoding (BPE) algorithm to tokenize these documents.
+
+\textbf{Initial setup:} For your initial setup, start with a vocabulary of individual characters and spaces: \{'i', ' ', 'h', 'u', 'g', 'p', 's', 'n', 'f'\}. Please note that spaces are treated as separate tokens and count toward your vocabulary size. Your starting vocabulary size is 9.
+
+\textbf{Instructions} You should apply the BPE algorithm by merging the most frequent adjacent token pairs iteratively. Continue this process until your vocabulary reaches the desired size of N=15, which means you'll perform 6 merges in total. If there happens to be a tie for the most frequent pair, you should resolve it by merging the first pair you encounter. \textbf{Document your merging operations.}
+
+\paragraph{Question 2.3a} What is the final list of the desired vocabulary tokens?
+\paragraph{Question 2.3b} What is the final list of document tokens after reaching the desired vocabulary size?
+
+\paragraph{Question 2.4} Let $\mathbf{Q} \in \mathbb{R}^{N \times d}$ denote a set of $N$ query vectors, which attend to $M$ key and value vectors, denoted by matrices $\mathbf{K} \in \mathbb{R}^{M \times d}$ and $\mathbf{V} \in \mathbb{R}^{M \times c}$ respectively. For a query vector at position $n$, the softmax attention function computes the following quantity:
+
+$$
+  \operatorname{Attn}\left(\mathbf{q}_{n}, \mathbf{K}, \mathbf{V}\right)=\sum_{m=1}^{M} \frac{\exp \left(\mathbf{q}_{n}^{\top} \mathbf{k}_{m}\right)}{\sum_{m^{\prime}=1}^{M} \exp \left(\mathbf{q}_{n}^{\top} \mathbf{k}_{m^{\prime}}\right)} \mathbf{v}_{m}^{\top}:=\mathbf{V}^{\top} \operatorname{softmax}\left(\mathbf{K} \mathbf{q}_{n}^{\top}\right)
+$$
+
+which is an average of the set of value vectors $\mathbf{V}$ weighted by the normalized similarity between different queries and keys.
+
+Please analyze what is the time and space complexity for \textbf{each component} of the attention computation, from query $\mathbf{Q}$ to $\mathbf{K}$, $\mathbf{V}$, using the big $O$ notation.
+
+\end{document}
